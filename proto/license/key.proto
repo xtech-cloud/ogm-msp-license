@@ -1,0 +1,65 @@
+syntax = "proto3";
+
+import "proto/license/shared.proto";
+
+package license;
+
+// 激活码
+service Key {
+  // 生成
+  rpc Generate(KeyGenerateRequest) returns (KeyGenerateResponse) {}
+  // 查询
+  rpc Query(KeyQueryRequest) returns (KeyQueryResponse) {}
+  // 激活
+  rpc Activate(KeyActivateRequest) returns (KeyActivateResponse) {}
+}
+
+// 生成的请求
+message KeyGenerateRequest {
+  string spaceKey = 1;     // 空间识别码
+  string secretSecret = 2; // 空间密钥
+  int32 count = 3;         // 生成数量
+  int32 capacity = 4;      // 可激活的设备数量
+  int32 expiry = 5;   // 有效期，以天为单位，默认为0（永久）
+  string storage = 6; // 自定义数据
+  string profile = 7; // 激活码简介
+}
+
+// 生成的回复
+message KeyGenerateResponse {
+  Status status = 1;          // 状态
+  repeated string number = 2; // 序列号
+}
+
+// 查询的请求
+message KeyQueryRequest {
+  string number = 1; // 序列号
+}
+
+// 查询的回复
+message KeyQueryResponse {
+  Status status = 1;     // 状态
+  string space = 2;      // 空间
+  int32 capacity = 3;    // 可激活的设备数量
+  int32 expiry = 4;      // 有效期，以天为单位，默认为0（永久）
+  string storage = 5;    // 自定义数据
+  string profile = 6;    // 激活码简介
+  int64 createdAt = 7;   // 创建时间
+  int64 updatedAt = 8;   // 更改时间
+  int64 activatedAt = 9; // 激活时间
+  int32 ban = 10;        // 禁用状态
+  repeated string active = 11; // 激活的设备
+}
+
+// 激活的请求
+message KeyActivateRequest {
+  string number = 1;   // 序列号
+  string consumer = 2; // 消费者
+}
+
+// 激活的回复
+message KeyActivateResponse {
+  Status status = 1;     // 状态
+  string cerUID = 2;     // 授权文件ID
+  string cerContent = 3; // 授权文件内容
+}

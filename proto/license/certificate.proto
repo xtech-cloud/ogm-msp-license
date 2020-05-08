@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+import "proto/license/shared.proto";
+
+package license;
+
+// 证书
+service Certificate {
+  // 获取
+  rpc Fetch(CerFetchRequest) returns (CerFetchResponse) {}
+}
+
+// 获取的请求
+message CerFetchRequest {
+  int32 consumer = 1; // 消费者
+}
+
+// 列举的回复
+message CerFetchResponse {
+  Status status = 1;  // 状态
+  string content = 2; // 证书内容
+}

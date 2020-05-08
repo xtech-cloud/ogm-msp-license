@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+import "proto/license/shared.proto";
+
+package license;
+
+// 空间
+service Space {
+  // 创建
+  rpc Create(SpaceCreateRequest) returns (BlankResponse) {}
+  // 查询
+  rpc Query(SpaceQueryRequest) returns (SpaceQueryResponse) {}
+  // 列举
+  rpc List(SpaceListRequest) returns (SpaceListResponse) {}
+}
+
+// 创建的请求
+message SpaceCreateRequest {
+  string name = 1; // 空间名
+}
+
+// 查询的请求
+message SpaceQueryRequest {
+  string name = 1; // 空间名
+}
+
+// 查询的回复
+message SpaceQueryResponse {
+  Status status = 1;      // 状态
+  string spaceKey = 2;    // 空间识别码
+  string spaceSecret = 3; // 空间密钥
+  string publicKey = 4;   // 公钥
+  string privateKey = 5;  // 私钥
+  string profile = 6;     // 简介
+  int64 createdAt = 7;    // 创建时间
+  int64 updatedAt = 8;    // 更新时间
+}
+
+// 列举的请求
+message SpaceListRequest {
+  int32 pageCapacity = 1; // 每页的数量
+  int32 pageStart = 2;    // 开始的页码
+  int32 pageEnd = 3;      // 结束的页码
+}
+
+// 列举的回复
+message SpaceListResponse {
+  Status status = 1;        // 状态
+  repeated string name = 2; // 空间名列表
+}
