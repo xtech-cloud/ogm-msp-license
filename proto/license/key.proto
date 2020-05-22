@@ -16,10 +16,10 @@ service Key {
 
 // 生成的请求
 message KeyGenerateRequest {
-  string spaceKey = 1;     // 空间识别码
-  string secretSecret = 2; // 空间密钥
-  int32 count = 3;         // 生成数量
-  int32 capacity = 4;      // 可激活的设备数量
+  string spaceKey = 1;    // 空间识别码
+  string spaceSecret = 2; // 空间密钥
+  int32 count = 3;        // 生成数量
+  int32 capacity = 4;     // 可激活的设备数量
   int32 expiry = 5;   // 有效期，以天为单位，默认为0（永久）
   string storage = 6; // 自定义数据
   string profile = 7; // 激活码简介
