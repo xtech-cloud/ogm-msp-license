@@ -40,6 +40,8 @@ type KeyService interface {
 	Query(ctx context.Context, in *KeyQueryRequest, opts ...client.CallOption) (*KeyQueryResponse, error)
 	// 激活
 	Activate(ctx context.Context, in *KeyActivateRequest, opts ...client.CallOption) (*KeyActivateResponse, error)
+	// 作废
+	Disannul(ctx context.Context, in *KeyDisannulRequest, opts ...client.CallOption) (*BlankResponse, error)
 }
 
 type keyService struct {
@@ -84,6 +86,16 @@ func (c *keyService) Activate(ctx context.Context, in *KeyActivateRequest, opts 
 	return out, nil
 }
 
+func (c *keyService) Disannul(ctx context.Context, in *KeyDisannulRequest, opts ...client.CallOption) (*BlankResponse, error) {
+	req := c.c.NewRequest(c.name, "Key.Disannul", in)
+	out := new(BlankResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for Key service
 
 type KeyHandler interface {
@@ -93,6 +105,8 @@ type KeyHandler interface {
 	Query(context.Context, *KeyQueryRequest, *KeyQueryResponse) error
 	// 激活
 	Activate(context.Context, *KeyActivateRequest, *KeyActivateResponse) error
+	// 作废
+	Disannul(context.Context, *KeyDisannulRequest, *BlankResponse) error
 }
 
 func RegisterKeyHandler(s server.Server, hdlr KeyHandler, opts ...server.HandlerOption) error {
@@ -100,6 +114,7 @@ func RegisterKeyHandler(s server.Server, hdlr KeyHandler, opts ...server.Handler
 		Generate(ctx context.Context, in *KeyGenerateRequest, out *KeyGenerateResponse) error
 		Query(ctx context.Context, in *KeyQueryRequest, out *KeyQueryResponse) error
 		Activate(ctx context.Context, in *KeyActivateRequest, out *KeyActivateResponse) error
+		Disannul(ctx context.Context, in *KeyDisannulRequest, out *BlankResponse) error
 	}
 	type Key struct {
 		key
@@ -122,4 +137,8 @@ func (h *keyHandler) Query(ctx context.Context, in *KeyQueryRequest, out *KeyQue
 
 func (h *keyHandler) Activate(ctx context.Context, in *KeyActivateRequest, out *KeyActivateResponse) error {
 	return h.KeyHandler.Activate(ctx, in, out)
+}
+
+func (h *keyHandler) Disannul(ctx context.Context, in *KeyDisannulRequest, out *BlankResponse) error {
+	return h.KeyHandler.Disannul(ctx, in, out)
 }

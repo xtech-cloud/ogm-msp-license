@@ -12,6 +12,8 @@ service Key {
   rpc Query(KeyQueryRequest) returns (KeyQueryResponse) {}
   // 激活
   rpc Activate(KeyActivateRequest) returns (KeyActivateResponse) {}
+  // 作废
+  rpc Disannul(KeyDisannulRequest) returns (BlankResponse) {}
 }
 
 // 生成的请求
@@ -63,4 +65,13 @@ message KeyActivateResponse {
   Status status = 1;     // 状态
   string cerUID = 2;     // 授权文件ID
   string cerContent = 3; // 授权文件内容
+}
+
+// 作废的请求
+message KeyDisannulRequest {
+  string spaceKey = 1;    // 空间识别码
+  string spaceSecret = 2; // 空间密钥
+  string number = 3;      // 序列号
+  int32 ban = 4;          // 禁用码
+  string reason = 5;      // 原因
 }

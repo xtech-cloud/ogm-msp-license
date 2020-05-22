@@ -60,7 +60,7 @@ func (m *CerFetchRequest) GetConsumer() int32 {
 	return 0
 }
 
-// 列举的回复
+// 获取的回复
 type CerFetchResponse struct {
 	Status               *Status  `protobuf:"bytes,1,opt,name=status,proto3" json:"status,omitempty"`
 	Content              string   `protobuf:"bytes,2,opt,name=content,proto3" json:"content,omitempty"`

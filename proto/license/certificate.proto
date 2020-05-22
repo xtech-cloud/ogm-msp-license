@@ -15,7 +15,7 @@ message CerFetchRequest {
   int32 consumer = 1; // 消费者
 }
 
-// 列举的回复
+// 获取的回复
 message CerFetchResponse {
   Status status = 1;  // 状态
   string content = 2; // 证书内容
