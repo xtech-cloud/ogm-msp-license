@@ -55,6 +55,7 @@ message KeyQueryResponse {
 message KeyActivateRequest {
   string number = 1;   // 序列号
   string consumer = 2; // 消费者
+  string space = 3;    //空间
 }
 
 // 激活的回复
