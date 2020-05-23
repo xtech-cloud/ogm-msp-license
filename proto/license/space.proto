@@ -26,15 +26,8 @@ message SpaceQueryRequest {
 
 // 查询的回复
 message SpaceQueryResponse {
-  Status status = 1;      // 状态
-  string name = 2;        //空间名
-  string spaceKey = 3;    // 空间识别码
-  string spaceSecret = 4; // 空间密钥
-  string publicKey = 5;   // 公钥
-  string privateKey = 6;  // 私钥
-  string profile = 7;     // 简介
-  int64 createdAt = 8;    // 创建时间
-  int64 updatedAt = 9;    // 更新时间
+  Status status = 1; // 状态
+  SpaceEntity space = 2;
 }
 
 // 列举的请求
@@ -45,6 +38,6 @@ message SpaceListRequest {
 
 // 列举的回复
 message SpaceListResponse {
-  Status status = 1;        // 状态
-  repeated string name = 2; // 空间名列表
+  Status status = 1;              // 状态
+  repeated SpaceEntity space = 2; // 空间名列表
 }

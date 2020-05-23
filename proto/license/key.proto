@@ -42,18 +42,8 @@ message KeyQueryRequest {
 
 // 查询的回复
 message KeyQueryResponse {
-  Status status = 1;   // 状态
-  string number = 2;   //序列号
-  string space = 3;    // 空间
-  int32 capacity = 4;  // 可激活的设备数量
-  int32 expiry = 5;    // 有效期，以天为单位，默认为0（永久）
-  string storage = 6;  // 自定义数据
-  string profile = 7;  // 激活码简介
-  int64 createdAt = 8; // 创建时间
-  int64 updatedAt = 9; // 更改时间
-  int64 activatedAt = 10;      // 激活时间
-  int32 ban = 11;              // 禁用状态
-  repeated string active = 12; // 激活的设备
+  Status status = 1; // 状态
+  KeyEntity key = 2;
 }
 
 // 激活的请求
@@ -88,5 +78,5 @@ message KeyListRequest {
 // 列举的回复
 message KeyListResponse {
   Status status = 1;          // 状态
-  repeated string number = 2; // 激活码
+  repeated KeyEntity key = 2; // 激活码
 }
