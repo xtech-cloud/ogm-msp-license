@@ -27,13 +27,14 @@ message SpaceQueryRequest {
 // 查询的回复
 message SpaceQueryResponse {
   Status status = 1;      // 状态
-  string spaceKey = 2;    // 空间识别码
-  string spaceSecret = 3; // 空间密钥
-  string publicKey = 4;   // 公钥
-  string privateKey = 5;  // 私钥
-  string profile = 6;     // 简介
-  int64 createdAt = 7;    // 创建时间
-  int64 updatedAt = 8;    // 更新时间
+  string name = 2;        //空间名
+  string spaceKey = 3;    // 空间识别码
+  string spaceSecret = 4; // 空间密钥
+  string publicKey = 5;   // 公钥
+  string privateKey = 6;  // 私钥
+  string profile = 7;     // 简介
+  int64 createdAt = 8;    // 创建时间
+  int64 updatedAt = 9;    // 更新时间
 }
 
 // 列举的请求

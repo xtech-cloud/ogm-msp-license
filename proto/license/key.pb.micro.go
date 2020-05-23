@@ -42,6 +42,8 @@ type KeyService interface {
 	Activate(ctx context.Context, in *KeyActivateRequest, opts ...client.CallOption) (*KeyActivateResponse, error)
 	// 挂起
 	Suspend(ctx context.Context, in *KeySuspendRequest, opts ...client.CallOption) (*BlankResponse, error)
+	// 列举
+	List(ctx context.Context, in *KeyListRequest, opts ...client.CallOption) (*KeyListResponse, error)
 }
 
 type keyService struct {
@@ -96,6 +98,16 @@ func (c *keyService) Suspend(ctx context.Context, in *KeySuspendRequest, opts ..
 	return out, nil
 }
 
+func (c *keyService) List(ctx context.Context, in *KeyListRequest, opts ...client.CallOption) (*KeyListResponse, error) {
+	req := c.c.NewRequest(c.name, "Key.List", in)
+	out := new(KeyListResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for Key service
 
 type KeyHandler interface {
@@ -107,6 +119,8 @@ type KeyHandler interface {
 	Activate(context.Context, *KeyActivateRequest, *KeyActivateResponse) error
 	// 挂起
 	Suspend(context.Context, *KeySuspendRequest, *BlankResponse) error
+	// 列举
+	List(context.Context, *KeyListRequest, *KeyListResponse) error
 }
 
 func RegisterKeyHandler(s server.Server, hdlr KeyHandler, opts ...server.HandlerOption) error {
@@ -115,6 +129,7 @@ func RegisterKeyHandler(s server.Server, hdlr KeyHandler, opts ...server.Handler
 		Query(ctx context.Context, in *KeyQueryRequest, out *KeyQueryResponse) error
 		Activate(ctx context.Context, in *KeyActivateRequest, out *KeyActivateResponse) error
 		Suspend(ctx context.Context, in *KeySuspendRequest, out *BlankResponse) error
+		List(ctx context.Context, in *KeyListRequest, out *KeyListResponse) error
 	}
 	type Key struct {
 		key
@@ -141,4 +156,8 @@ func (h *keyHandler) Activate(ctx context.Context, in *KeyActivateRequest, out *
 
 func (h *keyHandler) Suspend(ctx context.Context, in *KeySuspendRequest, out *BlankResponse) error {
 	return h.KeyHandler.Suspend(ctx, in, out)
+}
+
+func (h *keyHandler) List(ctx context.Context, in *KeyListRequest, out *KeyListResponse) error {
+	return h.KeyHandler.List(ctx, in, out)
 }
