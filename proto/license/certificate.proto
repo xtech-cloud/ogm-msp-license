@@ -27,6 +27,7 @@ message CerFetchResponse {
 message CerListRequest {
   int32 offset = 1; // 偏移值
   int32 count = 2;  // 数量
+  string space = 3; // 空间名
 }
 
 // 列举的回复
