@@ -8,15 +8,30 @@ package license;
 service Certificate {
   // 获取
   rpc Fetch(CerFetchRequest) returns (CerFetchResponse) {}
+  // 列举
+  rpc List(CerListRequest) returns (CerListResponse) {}
 }
 
 // 获取的请求
 message CerFetchRequest {
-  int32 consumer = 1; // 消费者
+  int32 uid = 1; // ID
 }
 
 // 获取的回复
 message CerFetchResponse {
-  Status status = 1;  // 状态
-  string content = 2; // 证书内容
+  Status status = 1;         // 状态
+  CertificateEntity cer = 2; // 证书
+}
+
+// 列举的请求
+message CerListRequest {
+  int32 offset = 1; // 偏移值
+  int32 count = 2;  // 数量
+}
+
+// 列举的回复
+message CerListResponse {
+  Status status = 1;                  // 状态
+  int64 total = 2;                    //持久化的总数
+  repeated CertificateEntity cer = 3; // 证书的列表
 }

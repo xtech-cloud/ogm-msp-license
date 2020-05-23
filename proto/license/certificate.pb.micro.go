@@ -36,6 +36,8 @@ var _ server.Option
 type CertificateService interface {
 	// 获取
 	Fetch(ctx context.Context, in *CerFetchRequest, opts ...client.CallOption) (*CerFetchResponse, error)
+	// 列举
+	List(ctx context.Context, in *CerListRequest, opts ...client.CallOption) (*CerListResponse, error)
 }
 
 type certificateService struct {
@@ -60,16 +62,29 @@ func (c *certificateService) Fetch(ctx context.Context, in *CerFetchRequest, opt
 	return out, nil
 }
 
+func (c *certificateService) List(ctx context.Context, in *CerListRequest, opts ...client.CallOption) (*CerListResponse, error) {
+	req := c.c.NewRequest(c.name, "Certificate.List", in)
+	out := new(CerListResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for Certificate service
 
 type CertificateHandler interface {
 	// 获取
 	Fetch(context.Context, *CerFetchRequest, *CerFetchResponse) error
+	// 列举
+	List(context.Context, *CerListRequest, *CerListResponse) error
 }
 
 func RegisterCertificateHandler(s server.Server, hdlr CertificateHandler, opts ...server.HandlerOption) error {
 	type certificate interface {
 		Fetch(ctx context.Context, in *CerFetchRequest, out *CerFetchResponse) error
+		List(ctx context.Context, in *CerListRequest, out *CerListResponse) error
 	}
 	type Certificate struct {
 		certificate
@@ -84,4 +99,8 @@ type certificateHandler struct {
 
 func (h *certificateHandler) Fetch(ctx context.Context, in *CerFetchRequest, out *CerFetchResponse) error {
 	return h.CertificateHandler.Fetch(ctx, in, out)
+}
+
+func (h *certificateHandler) List(ctx context.Context, in *CerListRequest, out *CerListResponse) error {
+	return h.CertificateHandler.List(ctx, in, out)
 }

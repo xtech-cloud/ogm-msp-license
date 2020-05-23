@@ -15,7 +15,7 @@ message BlankResponse {
 
 // 空间
 message SpaceEntity {
-  string name = 1;        //空间名
+  string name = 1;        // 空间名
   string spaceKey = 2;    // 空间识别码
   string spaceSecret = 3; // 空间密钥
   string publicKey = 4;   // 公钥
@@ -27,7 +27,7 @@ message SpaceEntity {
 
 // 激活码
 message KeyEntity {
-  string number = 1;     //序列号
+  string number = 1;     // 序列号
   string space = 2;      // 空间
   int32 capacity = 3;    // 可激活的设备数量
   int32 expiry = 4;      // 有效期，以天为单位，默认为0（永久）
@@ -38,4 +38,13 @@ message KeyEntity {
   int64 activatedAt = 9; // 激活时间
   int32 ban = 10;        // 禁用状态
   repeated string consumer = 11; // 消费者
+}
+
+// 证书
+message CertificateEntity {
+  string uid = 1;      // ID
+  string space = 2;    // 空间名
+  string number = 3;   // 激活码
+  string consumer = 4; // 消费者
+  string content = 5;  // 内容
 }
