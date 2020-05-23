@@ -47,4 +47,5 @@ message CertificateEntity {
   string number = 3;   // 激活码
   string consumer = 4; // 消费者
   string content = 5;  // 内容
+  int64 createdAt = 6; // 生成时间
 }
