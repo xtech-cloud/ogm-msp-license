@@ -39,9 +39,8 @@ message SpaceQueryResponse {
 
 // 列举的请求
 message SpaceListRequest {
-  int32 pageCapacity = 1; // 每页的数量
-  int32 pageStart = 2;    // 开始的页码
-  int32 pageEnd = 3;      // 结束的页码
+  int32 offset = 1; // 偏移值
+  int32 count = 2;  // 数量
 }
 
 // 列举的回复
