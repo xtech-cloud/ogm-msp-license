@@ -39,5 +39,6 @@ message SpaceListRequest {
 // 列举的回复
 message SpaceListResponse {
   Status status = 1;              // 状态
-  repeated SpaceEntity space = 2; // 空间名列表
+  int64 total = 2;                // 持久化的总数
+  repeated SpaceEntity space = 3; // 空间列表
 }

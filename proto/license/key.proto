@@ -20,13 +20,12 @@ service Key {
 
 // 生成的请求
 message KeyGenerateRequest {
-  string spaceKey = 1;    // 空间识别码
-  string spaceSecret = 2; // 空间密钥
-  int32 count = 3;        // 生成数量
-  int32 capacity = 4;     // 可激活的设备数量
-  int32 expiry = 5;   // 有效期，以天为单位，默认为0（永久）
-  string storage = 6; // 自定义数据
-  string profile = 7; // 激活码简介
+  string space = 1;   // 空间名
+  int32 count = 2;    // 生成数量
+  int32 capacity = 3; // 可激活的设备数量
+  int32 expiry = 4;   // 有效期，以天为单位，默认为0（永久）
+  string storage = 5; // 自定义数据
+  string profile = 6; // 激活码简介
 }
 
 // 生成的回复
@@ -62,21 +61,22 @@ message KeyActivateResponse {
 
 // 挂起的请求
 message KeySuspendRequest {
-  string spaceKey = 1;    // 空间识别码
-  string spaceSecret = 2; // 空间密钥
-  string number = 3;      // 序列号
-  int32 ban = 4;          // 禁用码, 0表示重新启用
-  string reason = 5;      // 原因
+  string space = 1;  // 空间名
+  string number = 2; // 序列号
+  int32 ban = 3;     // 禁用码, 0表示重新启用
+  string reason = 4; // 原因
 }
 
 // 列举的请求
 message KeyListRequest {
   int32 offset = 1; // 偏移值
   int32 count = 2;  // 数量
+  string space = 3; // 空间名
 }
 
 // 列举的回复
 message KeyListResponse {
   Status status = 1;          // 状态
-  repeated KeyEntity key = 2; // 激活码
+  int64 total = 2;            //持久化的总数
+  repeated KeyEntity key = 3; // 激活码列表
 }
