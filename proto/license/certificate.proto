@@ -14,7 +14,7 @@ service Certificate {
 
 // 获取的请求
 message CerFetchRequest {
-  int32 uid = 1; // ID
+  string uid = 1; // ID
 }
 
 // 获取的回复
