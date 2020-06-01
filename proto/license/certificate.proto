@@ -8,6 +8,8 @@ package license;
 service Certificate {
   // 获取
   rpc Fetch(CerFetchRequest) returns (CerFetchResponse) {}
+  // 拉取
+  rpc Pull(CerPullRequest) returns (CerPullResponse) {}
   // 列举
   rpc List(CerListRequest) returns (CerListResponse) {}
 }
@@ -19,6 +21,18 @@ message CerFetchRequest {
 
 // 获取的回复
 message CerFetchResponse {
+  Status status = 1;         // 状态
+  CertificateEntity cer = 2; // 证书
+}
+
+// 拉取的请求
+message CerPullRequest {
+  string space = 1;    // 空间名
+  string consumer = 2; // 消费者
+}
+
+// 拉取的回复
+message CerPullResponse {
   Status status = 1;         // 状态
   CertificateEntity cer = 2; // 证书
 }
