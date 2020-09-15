@@ -5,48 +5,55 @@ import "proto/license/shared.proto";
 package license;
 
 // 证书
-service Certificate {
-  // 获取
-  rpc Fetch(CerFetchRequest) returns (CerFetchResponse) {}
-  // 拉取
-  rpc Pull(CerPullRequest) returns (CerPullResponse) {}
-  // 列举
-  rpc List(CerListRequest) returns (CerListResponse) {}
+service Certificate
+{
+    // 获取
+    rpc Fetch(CerFetchRequest) returns (CerFetchResponse) {}
+    // 拉取
+    rpc Pull(CerPullRequest) returns (CerPullResponse) {}
+    // 列举
+    rpc List(CerListRequest) returns (CerListResponse) {}
 }
 
 // 获取的请求
-message CerFetchRequest {
-  string uid = 1; // ID
+message CerFetchRequest
+{
+    string uid = 1; // ID
 }
 
 // 获取的回复
-message CerFetchResponse {
-  Status status = 1;         // 状态
-  CertificateEntity cer = 2; // 证书
+message CerFetchResponse
+{
+    Status status = 1;         // 状态
+    CertificateEntity cer = 2; // 证书
 }
 
 // 拉取的请求
-message CerPullRequest {
-  string space = 1;    // 空间名
-  string consumer = 2; // 消费者
+message CerPullRequest
+{
+    string space = 1;    // 空间名
+    string consumer = 2; // 消费者
 }
 
 // 拉取的回复
-message CerPullResponse {
-  Status status = 1;         // 状态
-  CertificateEntity cer = 2; // 证书
+message CerPullResponse
+{
+    Status status = 1;         // 状态
+    CertificateEntity cer = 2; // 证书
 }
 
 // 列举的请求
-message CerListRequest {
-  int32 offset = 1; // 偏移值
-  int32 count = 2;  // 数量
-  string space = 3; // 空间名
+message CerListRequest
+{
+    int32 offset = 1; // 偏移值
+    int32 count = 2;  // 数量
+    string space = 3; // 空间名
 }
 
 // 列举的回复
-message CerListResponse {
-  Status status = 1;                  // 状态
-  int64 total = 2;                    //持久化的总数
-  repeated CertificateEntity cer = 3; // 证书的列表
+message CerListResponse
+{
+    Status status = 1;                  // 状态
+    int64 total = 2;                    //持久化的总数
+    repeated CertificateEntity cer = 3; // 证书的列表
 }

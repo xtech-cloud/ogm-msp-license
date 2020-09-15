@@ -3,49 +3,54 @@ syntax = "proto3";
 package license;
 
 // 状态
-message Status {
-  int32 code = 1;     // 状态码
-  string message = 2; // 状态信息
+message Status
+{
+    int32 code = 1;     // 状态码
+    string message = 2; // 状态信息
 }
 
 // 空白回复
-message BlankResponse {
-  Status status = 1; // 状态
+message BlankResponse
+{
+    Status status = 1; // 状态
 }
 
 // 空间
-message SpaceEntity {
-  string name = 1;        // 空间名
-  string spaceKey = 2;    // 空间识别码
-  string spaceSecret = 3; // 空间密钥
-  string publicKey = 4;   // 公钥
-  string privateKey = 5;  // 私钥
-  string profile = 6;     // 简介
-  int64 createdAt = 7;    // 创建时间
-  int64 updatedAt = 8;    // 更新时间
+message SpaceEntity
+{
+    string name = 1;        // 空间名
+    string spaceKey = 2;    // 空间识别码
+    string spaceSecret = 3; // 空间密钥
+    string publicKey = 4;   // 公钥
+    string privateKey = 5;  // 私钥
+    string profile = 6;     // 简介
+    int64 createdAt = 7;    // 创建时间
+    int64 updatedAt = 8;    // 更新时间
 }
 
 // 激活码
-message KeyEntity {
-  string number = 1;     // 序列号
-  string space = 2;      // 空间
-  int32 capacity = 3;    // 可激活的设备数量
-  int32 expiry = 4;      // 有效期，以天为单位，默认为0（永久）
-  string storage = 5;    // 自定义数据
-  string profile = 6;    // 激活码简介
-  int64 createdAt = 7;   // 创建时间
-  int64 updatedAt = 8;   // 更改时间
-  int64 activatedAt = 9; // 激活时间
-  int32 ban = 10;        // 禁用状态
-  repeated string consumer = 11; // 消费者
+message KeyEntity
+{
+    string number = 1;             // 序列号
+    string space = 2;              // 空间
+    int32 capacity = 3;            // 可激活的设备数量
+    int32 expiry = 4;              // 有效期，以天为单位，默认为0（永久）
+    string storage = 5;            // 自定义数据
+    string profile = 6;            // 激活码简介
+    int64 createdAt = 7;           // 创建时间
+    int64 updatedAt = 8;           // 更改时间
+    int64 activatedAt = 9;         // 激活时间
+    int32 ban = 10;                // 禁用状态
+    repeated string consumer = 11; // 消费者
 }
 
 // 证书
-message CertificateEntity {
-  string uid = 1;      // ID
-  string space = 2;    // 空间名
-  string number = 3;   // 激活码
-  string consumer = 4; // 消费者
-  string content = 5;  // 内容
-  int64 createdAt = 6; // 生成时间
+message CertificateEntity
+{
+    string uid = 1;      // ID
+    string space = 2;    // 空间名
+    string number = 3;   // 激活码
+    string consumer = 4; // 消费者
+    string content = 5;  // 内容
+    int64 createdAt = 6; // 生成时间
 }

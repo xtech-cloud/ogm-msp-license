@@ -5,78 +5,88 @@ import "proto/license/shared.proto";
 package license;
 
 // 激活码
-service Key {
-  // 生成
-  rpc Generate(KeyGenerateRequest) returns (KeyGenerateResponse) {}
-  // 查询
-  rpc Query(KeyQueryRequest) returns (KeyQueryResponse) {}
-  // 激活
-  rpc Activate(KeyActivateRequest) returns (KeyActivateResponse) {}
-  // 挂起
-  rpc Suspend(KeySuspendRequest) returns (BlankResponse) {}
-  // 列举
-  rpc List(KeyListRequest) returns (KeyListResponse) {}
+service Key
+{
+    // 生成
+    rpc Generate(KeyGenerateRequest) returns (KeyGenerateResponse) {}
+    // 查询
+    rpc Query(KeyQueryRequest) returns (KeyQueryResponse) {}
+    // 激活
+    rpc Activate(KeyActivateRequest) returns (KeyActivateResponse) {}
+    // 挂起
+    rpc Suspend(KeySuspendRequest) returns (BlankResponse) {}
+    // 列举
+    rpc List(KeyListRequest) returns (KeyListResponse) {}
 }
 
 // 生成的请求
-message KeyGenerateRequest {
-  string space = 1;   // 空间名
-  int32 count = 2;    // 生成数量
-  int32 capacity = 3; // 可激活的设备数量
-  int32 expiry = 4;   // 有效期，以天为单位，默认为0（永久）
-  string storage = 5; // 自定义数据
-  string profile = 6; // 激活码简介
+message KeyGenerateRequest
+{
+    string space = 1;   // 空间名
+    int32 count = 2;    // 生成数量
+    int32 capacity = 3; // 可激活的设备数量
+    int32 expiry = 4;   // 有效期，以天为单位，默认为0（永久）
+    string storage = 5; // 自定义数据
+    string profile = 6; // 激活码简介
 }
 
 // 生成的回复
-message KeyGenerateResponse {
-  Status status = 1;          // 状态
-  repeated string number = 2; // 序列号
+message KeyGenerateResponse
+{
+    Status status = 1;          // 状态
+    repeated string number = 2; // 序列号
 }
 
 // 查询的请求
-message KeyQueryRequest {
-  string number = 1; // 序列号
+message KeyQueryRequest
+{
+    string number = 1; // 序列号
 }
 
 // 查询的回复
-message KeyQueryResponse {
-  Status status = 1; // 状态
-  KeyEntity key = 2;
+message KeyQueryResponse
+{
+    Status status = 1; // 状态
+    KeyEntity key = 2;
 }
 
 // 激活的请求
-message KeyActivateRequest {
-  string number = 1;   // 序列号
-  string consumer = 2; // 消费者
-  string space = 3;    //空间
+message KeyActivateRequest
+{
+    string number = 1;   // 序列号
+    string consumer = 2; // 消费者
+    string space = 3;    //空间
 }
 
 // 激活的回复
-message KeyActivateResponse {
-  Status status = 1;     // 状态
-  string cerUID = 2;     // 授权文件ID
-  string cerContent = 3; // 授权文件内容
+message KeyActivateResponse
+{
+    Status status = 1;     // 状态
+    string cerUID = 2;     // 授权文件ID
+    string cerContent = 3; // 授权文件内容
 }
 
 // 挂起的请求
-message KeySuspendRequest {
-  string space = 1;  // 空间名
-  string number = 2; // 序列号
-  int32 ban = 3;     // 禁用码, 0表示重新启用
-  string reason = 4; // 原因
+message KeySuspendRequest
+{
+    string space = 1;  // 空间名
+    string number = 2; // 序列号
+    int32 ban = 3;     // 禁用码, 0表示重新启用
+    string reason = 4; // 原因
 }
 
 // 列举的请求
-message KeyListRequest {
-  int32 offset = 1; // 偏移值
-  int32 count = 2;  // 数量
-  string space = 3; // 空间名
+message KeyListRequest
+{
+    int32 offset = 1; // 偏移值
+    int32 count = 2;  // 数量
+    string space = 3; // 空间名
 }
 
 // 列举的回复
-message KeyListResponse {
-  Status status = 1;          // 状态
-  int64 total = 2;            //持久化的总数
-  repeated KeyEntity key = 3; // 激活码列表
+message KeyListResponse
+{
+    Status status = 1;          // 状态
+    int64 total = 2;            //持久化的总数
+    repeated KeyEntity key = 3; // 激活码列表
 }
