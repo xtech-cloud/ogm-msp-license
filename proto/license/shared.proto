@@ -1,6 +1,7 @@
 syntax = "proto3";
 
-package license;
+//package license;
+option go_package="proto/license;license";
 
 // 状态
 message Status
