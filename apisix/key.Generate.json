@@ -6,9 +6,9 @@
   },
   "openapi": "3.0.0",
   "paths": {
-    "/license/Key/Generate": {
+    "/ogm/license/key/generate": {
       "post": {
-        "operationId": "/license/Key/GeneratePOST",
+        "operationId": "/ogm/license/key/generatePOST",
         "requestBody": {},
         "responses": {
           "default": {

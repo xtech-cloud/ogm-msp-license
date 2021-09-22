@@ -6,9 +6,9 @@
   },
   "openapi": "3.0.0",
   "paths": {
-    "/license/Key/Suspend": {
+    "/ogm/license/key/suspend": {
       "post": {
-        "operationId": "/license/Key/SuspendPOST",
+        "operationId": "/ogm/license/key/suspendPOST",
         "requestBody": {},
         "responses": {
           "default": {

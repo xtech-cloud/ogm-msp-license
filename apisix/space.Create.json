@@ -6,9 +6,9 @@
   },
   "openapi": "3.0.0",
   "paths": {
-    "/license/Space/Create": {
+    "/ogm/license/space/create": {
       "post": {
-        "operationId": "/license/Space/CreatePOST",
+        "operationId": "/ogm/license/space/createPOST",
         "requestBody": {},
         "responses": {
           "default": {

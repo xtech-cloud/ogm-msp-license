@@ -6,9 +6,9 @@
   },
   "openapi": "3.0.0",
   "paths": {
-    "/license/Space/Query": {
+    "/ogm/license/space/query": {
       "post": {
-        "operationId": "/license/Space/QueryPOST",
+        "operationId": "/ogm/license/space/queryPOST",
         "requestBody": {},
         "responses": {
           "default": {

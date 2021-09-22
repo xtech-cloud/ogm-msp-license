@@ -6,9 +6,9 @@
   },
   "openapi": "3.0.0",
   "paths": {
-    "/license/Certificate/Pull": {
+    "/ogm/license/certificate/pull": {
       "post": {
-        "operationId": "/license/Certificate/PullPOST",
+        "operationId": "/ogm/license/certificate/pullPOST",
         "requestBody": {},
         "responses": {
           "default": {

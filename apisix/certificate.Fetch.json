@@ -6,9 +6,9 @@
   },
   "openapi": "3.0.0",
   "paths": {
-    "/license/Certificate/Fetch": {
+    "/ogm/license/certificate/fetch": {
       "post": {
-        "operationId": "/license/Certificate/FetchPOST",
+        "operationId": "/ogm/license/certificate/fetchPOST",
         "requestBody": {},
         "responses": {
           "default": {

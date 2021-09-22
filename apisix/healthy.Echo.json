@@ -6,9 +6,9 @@
   },
   "openapi": "3.0.0",
   "paths": {
-    "/license/Healthy/Echo": {
+    "/ogm/license/healthy/echo": {
       "post": {
-        "operationId": "/license/Healthy/EchoPOST",
+        "operationId": "/ogm/license/healthy/echoPOST",
         "requestBody": {},
         "responses": {
           "default": {

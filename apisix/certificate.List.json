@@ -6,9 +6,9 @@
   },
   "openapi": "3.0.0",
   "paths": {
-    "/license/Certificate/List": {
+    "/ogm/license/certificate/list": {
       "post": {
-        "operationId": "/license/Certificate/ListPOST",
+        "operationId": "/ogm/license/certificate/listPOST",
         "requestBody": {},
         "responses": {
           "default": {
