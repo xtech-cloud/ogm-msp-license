@@ -42,6 +42,8 @@ type KeyService interface {
 	Activate(ctx context.Context, in *KeyActivateRequest, opts ...client.CallOption) (*KeyActivateResponse, error)
 	// 更新
 	Update(ctx context.Context, in *KeyUpdateRequest, opts ...client.CallOption) (*UuidResponse, error)
+	// 获取
+	Get(ctx context.Context, in *KeyGetRequest, opts ...client.CallOption) (*KeyGetResponse, error)
 	// 列举
 	List(ctx context.Context, in *KeyListRequest, opts ...client.CallOption) (*KeyListResponse, error)
 	// 查询
@@ -90,6 +92,16 @@ func (c *keyService) Update(ctx context.Context, in *KeyUpdateRequest, opts ...c
 	return out, nil
 }
 
+func (c *keyService) Get(ctx context.Context, in *KeyGetRequest, opts ...client.CallOption) (*KeyGetResponse, error) {
+	req := c.c.NewRequest(c.name, "Key.Get", in)
+	out := new(KeyGetResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *keyService) List(ctx context.Context, in *KeyListRequest, opts ...client.CallOption) (*KeyListResponse, error) {
 	req := c.c.NewRequest(c.name, "Key.List", in)
 	out := new(KeyListResponse)
@@ -119,6 +131,8 @@ type KeyHandler interface {
 	Activate(context.Context, *KeyActivateRequest, *KeyActivateResponse) error
 	// 更新
 	Update(context.Context, *KeyUpdateRequest, *UuidResponse) error
+	// 获取
+	Get(context.Context, *KeyGetRequest, *KeyGetResponse) error
 	// 列举
 	List(context.Context, *KeyListRequest, *KeyListResponse) error
 	// 查询
@@ -130,6 +144,7 @@ func RegisterKeyHandler(s server.Server, hdlr KeyHandler, opts ...server.Handler
 		Generate(ctx context.Context, in *KeyGenerateRequest, out *KeyGenerateResponse) error
 		Activate(ctx context.Context, in *KeyActivateRequest, out *KeyActivateResponse) error
 		Update(ctx context.Context, in *KeyUpdateRequest, out *UuidResponse) error
+		Get(ctx context.Context, in *KeyGetRequest, out *KeyGetResponse) error
 		List(ctx context.Context, in *KeyListRequest, out *KeyListResponse) error
 		Search(ctx context.Context, in *KeySearchRequest, out *KeyListResponse) error
 	}
@@ -154,6 +169,10 @@ func (h *keyHandler) Activate(ctx context.Context, in *KeyActivateRequest, out *
 
 func (h *keyHandler) Update(ctx context.Context, in *KeyUpdateRequest, out *UuidResponse) error {
 	return h.KeyHandler.Update(ctx, in, out)
+}
+
+func (h *keyHandler) Get(ctx context.Context, in *KeyGetRequest, out *KeyGetResponse) error {
+	return h.KeyHandler.Get(ctx, in, out)
 }
 
 func (h *keyHandler) List(ctx context.Context, in *KeyListRequest, out *KeyListResponse) error {

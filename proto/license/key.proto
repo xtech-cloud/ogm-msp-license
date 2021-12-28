@@ -14,6 +14,8 @@ service Key
     rpc Activate(KeyActivateRequest) returns (KeyActivateResponse) { }
     // 更新
     rpc Update(KeyUpdateRequest) returns (UuidResponse) { }
+    // 获取
+    rpc Get(KeyGetRequest) returns (KeyGetResponse) { }
     // 列举
     rpc List(KeyListRequest) returns (KeyListResponse) { }
     // 查询
@@ -61,6 +63,19 @@ message KeyUpdateRequest
     string profile = 2; // 描述
     int32 ban = 3;      // 禁用码, 0表示重新启用
     string reason = 4;  // 禁用原因
+}
+
+// 获取的请求
+message KeyGetRequest
+{
+    string uuid = 1; // uuid
+}
+
+// 获取的回复
+message KeyGetResponse
+{
+    Status status = 1; // 状态
+    KeyEntity key = 2; // 实体
 }
 
 // 列举的请求
