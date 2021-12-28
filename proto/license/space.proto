@@ -10,6 +10,8 @@ service Space
 {
     // 创建
     rpc Create(SpaceCreateRequest) returns (UuidResponse) { }
+    // 更新
+    rpc Update(SpaceUpdateRequest) returns (UuidResponse) { }
     // 列举
     rpc List(SpaceListRequest) returns (SpaceListResponse) { }
     //  搜索
@@ -19,7 +21,15 @@ service Space
 // 创建的请求
 message SpaceCreateRequest
 {
-    string name = 1; // 空间名
+    string name = 1;    // 空间名
+    string profile = 2; // 描述
+}
+
+// 更新的请求
+message SpaceUpdateRequest
+{
+    string uuid = 1;    // 空间UUID
+    string profile = 2; // 描述
 }
 
 // 搜索的请求
