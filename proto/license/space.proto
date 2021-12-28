@@ -12,6 +12,8 @@ service Space
     rpc Create(SpaceCreateRequest) returns (UuidResponse) { }
     // 更新
     rpc Update(SpaceUpdateRequest) returns (UuidResponse) { }
+    // 获取
+    rpc Get(SpaceGetRequest) returns (SpaceGetResponse) { }
     // 列举
     rpc List(SpaceListRequest) returns (SpaceListResponse) { }
     //  搜索
@@ -53,4 +55,17 @@ message SpaceListResponse
     Status status = 1;              // 状态
     int64 total = 2;                // 持久化的总数
     repeated SpaceEntity space = 3; // 空间列表
+}
+
+// 获取的请求
+message SpaceGetRequest
+{
+    string uuid = 1; //UUID
+}
+
+// 获取的回复
+message SpaceGetResponse
+{
+    Status status = 1;     // 状态
+    SpaceEntity space = 2; // 实体
 }

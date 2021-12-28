@@ -40,6 +40,8 @@ type SpaceService interface {
 	Create(ctx context.Context, in *SpaceCreateRequest, opts ...client.CallOption) (*UuidResponse, error)
 	// 更新
 	Update(ctx context.Context, in *SpaceUpdateRequest, opts ...client.CallOption) (*UuidResponse, error)
+	// 获取
+	Get(ctx context.Context, in *SpaceGetRequest, opts ...client.CallOption) (*SpaceGetResponse, error)
 	// 列举
 	List(ctx context.Context, in *SpaceListRequest, opts ...client.CallOption) (*SpaceListResponse, error)
 	//  搜索
@@ -78,6 +80,16 @@ func (c *spaceService) Update(ctx context.Context, in *SpaceUpdateRequest, opts 
 	return out, nil
 }
 
+func (c *spaceService) Get(ctx context.Context, in *SpaceGetRequest, opts ...client.CallOption) (*SpaceGetResponse, error) {
+	req := c.c.NewRequest(c.name, "Space.Get", in)
+	out := new(SpaceGetResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *spaceService) List(ctx context.Context, in *SpaceListRequest, opts ...client.CallOption) (*SpaceListResponse, error) {
 	req := c.c.NewRequest(c.name, "Space.List", in)
 	out := new(SpaceListResponse)
@@ -105,6 +117,8 @@ type SpaceHandler interface {
 	Create(context.Context, *SpaceCreateRequest, *UuidResponse) error
 	// 更新
 	Update(context.Context, *SpaceUpdateRequest, *UuidResponse) error
+	// 获取
+	Get(context.Context, *SpaceGetRequest, *SpaceGetResponse) error
 	// 列举
 	List(context.Context, *SpaceListRequest, *SpaceListResponse) error
 	//  搜索
@@ -115,6 +129,7 @@ func RegisterSpaceHandler(s server.Server, hdlr SpaceHandler, opts ...server.Han
 	type space interface {
 		Create(ctx context.Context, in *SpaceCreateRequest, out *UuidResponse) error
 		Update(ctx context.Context, in *SpaceUpdateRequest, out *UuidResponse) error
+		Get(ctx context.Context, in *SpaceGetRequest, out *SpaceGetResponse) error
 		List(ctx context.Context, in *SpaceListRequest, out *SpaceListResponse) error
 		Search(ctx context.Context, in *SpaceSearchRequest, out *SpaceListResponse) error
 	}
@@ -135,6 +150,10 @@ func (h *spaceHandler) Create(ctx context.Context, in *SpaceCreateRequest, out *
 
 func (h *spaceHandler) Update(ctx context.Context, in *SpaceUpdateRequest, out *UuidResponse) error {
 	return h.SpaceHandler.Update(ctx, in, out)
+}
+
+func (h *spaceHandler) Get(ctx context.Context, in *SpaceGetRequest, out *SpaceGetResponse) error {
+	return h.SpaceHandler.Get(ctx, in, out)
 }
 
 func (h *spaceHandler) List(ctx context.Context, in *SpaceListRequest, out *SpaceListResponse) error {
