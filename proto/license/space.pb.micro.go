@@ -37,11 +37,11 @@ func NewSpaceEndpoints() []*api.Endpoint {
 
 type SpaceService interface {
 	// 创建
-	Create(ctx context.Context, in *SpaceCreateRequest, opts ...client.CallOption) (*BlankResponse, error)
-	// 查询
-	Query(ctx context.Context, in *SpaceQueryRequest, opts ...client.CallOption) (*SpaceQueryResponse, error)
+	Create(ctx context.Context, in *SpaceCreateRequest, opts ...client.CallOption) (*UuidResponse, error)
 	// 列举
 	List(ctx context.Context, in *SpaceListRequest, opts ...client.CallOption) (*SpaceListResponse, error)
+	//  搜索
+	Search(ctx context.Context, in *SpaceSearchRequest, opts ...client.CallOption) (*SpaceListResponse, error)
 }
 
 type spaceService struct {
@@ -56,19 +56,9 @@ func NewSpaceService(name string, c client.Client) SpaceService {
 	}
 }
 
-func (c *spaceService) Create(ctx context.Context, in *SpaceCreateRequest, opts ...client.CallOption) (*BlankResponse, error) {
+func (c *spaceService) Create(ctx context.Context, in *SpaceCreateRequest, opts ...client.CallOption) (*UuidResponse, error) {
 	req := c.c.NewRequest(c.name, "Space.Create", in)
-	out := new(BlankResponse)
-	err := c.c.Call(ctx, req, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *spaceService) Query(ctx context.Context, in *SpaceQueryRequest, opts ...client.CallOption) (*SpaceQueryResponse, error) {
-	req := c.c.NewRequest(c.name, "Space.Query", in)
-	out := new(SpaceQueryResponse)
+	out := new(UuidResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -86,22 +76,32 @@ func (c *spaceService) List(ctx context.Context, in *SpaceListRequest, opts ...c
 	return out, nil
 }
 
+func (c *spaceService) Search(ctx context.Context, in *SpaceSearchRequest, opts ...client.CallOption) (*SpaceListResponse, error) {
+	req := c.c.NewRequest(c.name, "Space.Search", in)
+	out := new(SpaceListResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for Space service
 
 type SpaceHandler interface {
 	// 创建
-	Create(context.Context, *SpaceCreateRequest, *BlankResponse) error
-	// 查询
-	Query(context.Context, *SpaceQueryRequest, *SpaceQueryResponse) error
+	Create(context.Context, *SpaceCreateRequest, *UuidResponse) error
 	// 列举
 	List(context.Context, *SpaceListRequest, *SpaceListResponse) error
+	//  搜索
+	Search(context.Context, *SpaceSearchRequest, *SpaceListResponse) error
 }
 
 func RegisterSpaceHandler(s server.Server, hdlr SpaceHandler, opts ...server.HandlerOption) error {
 	type space interface {
-		Create(ctx context.Context, in *SpaceCreateRequest, out *BlankResponse) error
-		Query(ctx context.Context, in *SpaceQueryRequest, out *SpaceQueryResponse) error
+		Create(ctx context.Context, in *SpaceCreateRequest, out *UuidResponse) error
 		List(ctx context.Context, in *SpaceListRequest, out *SpaceListResponse) error
+		Search(ctx context.Context, in *SpaceSearchRequest, out *SpaceListResponse) error
 	}
 	type Space struct {
 		space
@@ -114,14 +114,14 @@ type spaceHandler struct {
 	SpaceHandler
 }
 
-func (h *spaceHandler) Create(ctx context.Context, in *SpaceCreateRequest, out *BlankResponse) error {
+func (h *spaceHandler) Create(ctx context.Context, in *SpaceCreateRequest, out *UuidResponse) error {
 	return h.SpaceHandler.Create(ctx, in, out)
-}
-
-func (h *spaceHandler) Query(ctx context.Context, in *SpaceQueryRequest, out *SpaceQueryResponse) error {
-	return h.SpaceHandler.Query(ctx, in, out)
 }
 
 func (h *spaceHandler) List(ctx context.Context, in *SpaceListRequest, out *SpaceListResponse) error {
 	return h.SpaceHandler.List(ctx, in, out)
+}
+
+func (h *spaceHandler) Search(ctx context.Context, in *SpaceSearchRequest, out *SpaceListResponse) error {
+	return h.SpaceHandler.Search(ctx, in, out)
 }

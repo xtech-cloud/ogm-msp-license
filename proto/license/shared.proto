@@ -1,7 +1,7 @@
 syntax = "proto3";
 
 package license;
-option go_package="proto/license;license";
+option go_package = "proto/license;license";
 
 // 状态
 message Status
@@ -14,6 +14,13 @@ message Status
 message BlankResponse
 {
     Status status = 1; // 状态
+}
+
+// Uuid回复
+message UuidResponse
+{
+    Status status = 1; // 状态
+    string uuid = 2;   // uuid
 }
 
 // 空间
@@ -32,17 +39,19 @@ message SpaceEntity
 // 激活码
 message KeyEntity
 {
-    string number = 1;             // 序列号
-    string space = 2;              // 空间
-    int32 capacity = 3;            // 可激活的设备数量
-    int32 expiry = 4;              // 有效期，以天为单位，默认为0（永久）
-    string storage = 5;            // 自定义数据
-    string profile = 6;            // 激活码简介
-    int64 createdAt = 7;           // 创建时间
-    int64 updatedAt = 8;           // 更改时间
-    int64 activatedAt = 9;         // 激活时间
-    int32 ban = 10;                // 禁用状态
-    repeated string consumer = 11; // 消费者
+    string uuid = 1;
+    string number = 2;             // 序列号
+    string space = 3;              // 空间
+    int32 capacity = 4;            // 可激活的设备数量
+    int32 expiry = 5;              // 有效期，以天为单位，默认为0（永久）
+    string storage = 6;            // 自定义数据
+    string profile = 7;            // 激活码简介
+    int64 createdAt = 8;           // 创建时间
+    int64 updatedAt = 9;           // 更改时间
+    int64 activatedAt = 10;        // 激活时间
+    int32 ban = 11;                // 禁用状态
+    int32 reason = 12;             // 禁用原因
+    repeated string consumer = 13; // 消费者
 }
 
 // 证书

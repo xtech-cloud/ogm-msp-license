@@ -38,14 +38,14 @@ func NewKeyEndpoints() []*api.Endpoint {
 type KeyService interface {
 	// 生成
 	Generate(ctx context.Context, in *KeyGenerateRequest, opts ...client.CallOption) (*KeyGenerateResponse, error)
-	// 查询
-	Query(ctx context.Context, in *KeyQueryRequest, opts ...client.CallOption) (*KeyQueryResponse, error)
 	// 激活
 	Activate(ctx context.Context, in *KeyActivateRequest, opts ...client.CallOption) (*KeyActivateResponse, error)
-	// 挂起
-	Suspend(ctx context.Context, in *KeySuspendRequest, opts ...client.CallOption) (*BlankResponse, error)
+	// 更新
+	Update(ctx context.Context, in *KeyUpdateRequest, opts ...client.CallOption) (*UuidResponse, error)
 	// 列举
 	List(ctx context.Context, in *KeyListRequest, opts ...client.CallOption) (*KeyListResponse, error)
+	// 查询
+	Search(ctx context.Context, in *KeySearchRequest, opts ...client.CallOption) (*KeyListResponse, error)
 }
 
 type keyService struct {
@@ -70,16 +70,6 @@ func (c *keyService) Generate(ctx context.Context, in *KeyGenerateRequest, opts 
 	return out, nil
 }
 
-func (c *keyService) Query(ctx context.Context, in *KeyQueryRequest, opts ...client.CallOption) (*KeyQueryResponse, error) {
-	req := c.c.NewRequest(c.name, "Key.Query", in)
-	out := new(KeyQueryResponse)
-	err := c.c.Call(ctx, req, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *keyService) Activate(ctx context.Context, in *KeyActivateRequest, opts ...client.CallOption) (*KeyActivateResponse, error) {
 	req := c.c.NewRequest(c.name, "Key.Activate", in)
 	out := new(KeyActivateResponse)
@@ -90,9 +80,9 @@ func (c *keyService) Activate(ctx context.Context, in *KeyActivateRequest, opts 
 	return out, nil
 }
 
-func (c *keyService) Suspend(ctx context.Context, in *KeySuspendRequest, opts ...client.CallOption) (*BlankResponse, error) {
-	req := c.c.NewRequest(c.name, "Key.Suspend", in)
-	out := new(BlankResponse)
+func (c *keyService) Update(ctx context.Context, in *KeyUpdateRequest, opts ...client.CallOption) (*UuidResponse, error) {
+	req := c.c.NewRequest(c.name, "Key.Update", in)
+	out := new(UuidResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -110,28 +100,38 @@ func (c *keyService) List(ctx context.Context, in *KeyListRequest, opts ...clien
 	return out, nil
 }
 
+func (c *keyService) Search(ctx context.Context, in *KeySearchRequest, opts ...client.CallOption) (*KeyListResponse, error) {
+	req := c.c.NewRequest(c.name, "Key.Search", in)
+	out := new(KeyListResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for Key service
 
 type KeyHandler interface {
 	// 生成
 	Generate(context.Context, *KeyGenerateRequest, *KeyGenerateResponse) error
-	// 查询
-	Query(context.Context, *KeyQueryRequest, *KeyQueryResponse) error
 	// 激活
 	Activate(context.Context, *KeyActivateRequest, *KeyActivateResponse) error
-	// 挂起
-	Suspend(context.Context, *KeySuspendRequest, *BlankResponse) error
+	// 更新
+	Update(context.Context, *KeyUpdateRequest, *UuidResponse) error
 	// 列举
 	List(context.Context, *KeyListRequest, *KeyListResponse) error
+	// 查询
+	Search(context.Context, *KeySearchRequest, *KeyListResponse) error
 }
 
 func RegisterKeyHandler(s server.Server, hdlr KeyHandler, opts ...server.HandlerOption) error {
 	type key interface {
 		Generate(ctx context.Context, in *KeyGenerateRequest, out *KeyGenerateResponse) error
-		Query(ctx context.Context, in *KeyQueryRequest, out *KeyQueryResponse) error
 		Activate(ctx context.Context, in *KeyActivateRequest, out *KeyActivateResponse) error
-		Suspend(ctx context.Context, in *KeySuspendRequest, out *BlankResponse) error
+		Update(ctx context.Context, in *KeyUpdateRequest, out *UuidResponse) error
 		List(ctx context.Context, in *KeyListRequest, out *KeyListResponse) error
+		Search(ctx context.Context, in *KeySearchRequest, out *KeyListResponse) error
 	}
 	type Key struct {
 		key
@@ -148,18 +148,18 @@ func (h *keyHandler) Generate(ctx context.Context, in *KeyGenerateRequest, out *
 	return h.KeyHandler.Generate(ctx, in, out)
 }
 
-func (h *keyHandler) Query(ctx context.Context, in *KeyQueryRequest, out *KeyQueryResponse) error {
-	return h.KeyHandler.Query(ctx, in, out)
-}
-
 func (h *keyHandler) Activate(ctx context.Context, in *KeyActivateRequest, out *KeyActivateResponse) error {
 	return h.KeyHandler.Activate(ctx, in, out)
 }
 
-func (h *keyHandler) Suspend(ctx context.Context, in *KeySuspendRequest, out *BlankResponse) error {
-	return h.KeyHandler.Suspend(ctx, in, out)
+func (h *keyHandler) Update(ctx context.Context, in *KeyUpdateRequest, out *UuidResponse) error {
+	return h.KeyHandler.Update(ctx, in, out)
 }
 
 func (h *keyHandler) List(ctx context.Context, in *KeyListRequest, out *KeyListResponse) error {
 	return h.KeyHandler.List(ctx, in, out)
+}
+
+func (h *keyHandler) Search(ctx context.Context, in *KeySearchRequest, out *KeyListResponse) error {
+	return h.KeyHandler.Search(ctx, in, out)
 }
