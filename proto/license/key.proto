@@ -52,8 +52,9 @@ message KeyActivateRequest
 message KeyActivateResponse
 {
     Status status = 1;     // 状态
-    string cerUID = 2;     // 授权文件ID
-    string cerContent = 3; // 授权文件内容
+    string uuid = 2;       // key的UUID
+    string cerUID = 3;     // 授权文件ID
+    string cerContent = 4; // 授权文件内容
 }
 
 // 更新的请求
