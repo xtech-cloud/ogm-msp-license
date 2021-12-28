@@ -37,11 +37,11 @@ func NewCertificateEndpoints() []*api.Endpoint {
 
 type CertificateService interface {
 	// 获取
-	Fetch(ctx context.Context, in *CerFetchRequest, opts ...client.CallOption) (*CerFetchResponse, error)
-	// 拉取
-	Pull(ctx context.Context, in *CerPullRequest, opts ...client.CallOption) (*CerPullResponse, error)
+	Get(ctx context.Context, in *CerGetRequest, opts ...client.CallOption) (*CerGetResponse, error)
 	// 列举
 	List(ctx context.Context, in *CerListRequest, opts ...client.CallOption) (*CerListResponse, error)
+	// 搜索
+	Search(ctx context.Context, in *CerSearchRequest, opts ...client.CallOption) (*CerListResponse, error)
 }
 
 type certificateService struct {
@@ -56,19 +56,9 @@ func NewCertificateService(name string, c client.Client) CertificateService {
 	}
 }
 
-func (c *certificateService) Fetch(ctx context.Context, in *CerFetchRequest, opts ...client.CallOption) (*CerFetchResponse, error) {
-	req := c.c.NewRequest(c.name, "Certificate.Fetch", in)
-	out := new(CerFetchResponse)
-	err := c.c.Call(ctx, req, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *certificateService) Pull(ctx context.Context, in *CerPullRequest, opts ...client.CallOption) (*CerPullResponse, error) {
-	req := c.c.NewRequest(c.name, "Certificate.Pull", in)
-	out := new(CerPullResponse)
+func (c *certificateService) Get(ctx context.Context, in *CerGetRequest, opts ...client.CallOption) (*CerGetResponse, error) {
+	req := c.c.NewRequest(c.name, "Certificate.Get", in)
+	out := new(CerGetResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -86,22 +76,32 @@ func (c *certificateService) List(ctx context.Context, in *CerListRequest, opts 
 	return out, nil
 }
 
+func (c *certificateService) Search(ctx context.Context, in *CerSearchRequest, opts ...client.CallOption) (*CerListResponse, error) {
+	req := c.c.NewRequest(c.name, "Certificate.Search", in)
+	out := new(CerListResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for Certificate service
 
 type CertificateHandler interface {
 	// 获取
-	Fetch(context.Context, *CerFetchRequest, *CerFetchResponse) error
-	// 拉取
-	Pull(context.Context, *CerPullRequest, *CerPullResponse) error
+	Get(context.Context, *CerGetRequest, *CerGetResponse) error
 	// 列举
 	List(context.Context, *CerListRequest, *CerListResponse) error
+	// 搜索
+	Search(context.Context, *CerSearchRequest, *CerListResponse) error
 }
 
 func RegisterCertificateHandler(s server.Server, hdlr CertificateHandler, opts ...server.HandlerOption) error {
 	type certificate interface {
-		Fetch(ctx context.Context, in *CerFetchRequest, out *CerFetchResponse) error
-		Pull(ctx context.Context, in *CerPullRequest, out *CerPullResponse) error
+		Get(ctx context.Context, in *CerGetRequest, out *CerGetResponse) error
 		List(ctx context.Context, in *CerListRequest, out *CerListResponse) error
+		Search(ctx context.Context, in *CerSearchRequest, out *CerListResponse) error
 	}
 	type Certificate struct {
 		certificate
@@ -114,14 +114,14 @@ type certificateHandler struct {
 	CertificateHandler
 }
 
-func (h *certificateHandler) Fetch(ctx context.Context, in *CerFetchRequest, out *CerFetchResponse) error {
-	return h.CertificateHandler.Fetch(ctx, in, out)
-}
-
-func (h *certificateHandler) Pull(ctx context.Context, in *CerPullRequest, out *CerPullResponse) error {
-	return h.CertificateHandler.Pull(ctx, in, out)
+func (h *certificateHandler) Get(ctx context.Context, in *CerGetRequest, out *CerGetResponse) error {
+	return h.CertificateHandler.Get(ctx, in, out)
 }
 
 func (h *certificateHandler) List(ctx context.Context, in *CerListRequest, out *CerListResponse) error {
 	return h.CertificateHandler.List(ctx, in, out)
+}
+
+func (h *certificateHandler) Search(ctx context.Context, in *CerSearchRequest, out *CerListResponse) error {
+	return h.CertificateHandler.Search(ctx, in, out)
 }

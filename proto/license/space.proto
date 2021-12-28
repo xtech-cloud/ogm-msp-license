@@ -3,17 +3,17 @@ syntax = "proto3";
 import "proto/license/shared.proto";
 
 package license;
-option go_package="proto/license;license";
+option go_package = "proto/license;license";
 
 // 空间
 service Space
 {
     // 创建
-    rpc Create(SpaceCreateRequest) returns (UuidResponse) {}
+    rpc Create(SpaceCreateRequest) returns (UuidResponse) { }
     // 列举
-    rpc List(SpaceListRequest) returns (SpaceListResponse) {}
+    rpc List(SpaceListRequest) returns (SpaceListResponse) { }
     //  搜索
-    rpc Search(SpaceSearchRequest) returns (SpaceListResponse) {}
+    rpc Search(SpaceSearchRequest) returns (SpaceListResponse) { }
 }
 
 // 创建的请求
@@ -25,7 +25,9 @@ message SpaceCreateRequest
 // 搜索的请求
 message SpaceSearchRequest
 {
-    string name = 1; // 空间名
+    int32 offset = 1; // 偏移值
+    int32 count = 2;  // 数量
+    string name = 3;  // 空间名
 }
 
 // 列举的请求

@@ -3,44 +3,40 @@ syntax = "proto3";
 import "proto/license/shared.proto";
 
 package license;
-option go_package="proto/license;license";
+option go_package = "proto/license;license";
 
 // 证书
 service Certificate
 {
     // 获取
-    rpc Fetch(CerFetchRequest) returns (CerFetchResponse) {}
-    // 拉取
-    rpc Pull(CerPullRequest) returns (CerPullResponse) {}
+    rpc Get(CerGetRequest) returns (CerGetResponse) { }
     // 列举
-    rpc List(CerListRequest) returns (CerListResponse) {}
+    rpc List(CerListRequest) returns (CerListResponse) { }
+    // 搜索
+    rpc Search(CerSearchRequest) returns (CerListResponse) { }
 }
 
 // 获取的请求
-message CerFetchRequest
+message CerGetRequest
 {
-    string uid = 1; // ID
+    string uuid = 1; // uuid
 }
 
 // 获取的回复
-message CerFetchResponse
+message CerGetResponse
 {
     Status status = 1;         // 状态
     CertificateEntity cer = 2; // 证书
 }
 
-// 拉取的请求
-message CerPullRequest
+// 搜索的请求
+message CerSearchRequest
 {
-    string space = 1;    // 空间名
-    string consumer = 2; // 消费者
-}
-
-// 拉取的回复
-message CerPullResponse
-{
-    Status status = 1;         // 状态
-    CertificateEntity cer = 2; // 证书
+    int32 offset = 1;    // 偏移值
+    int32 count = 2;     // 数量
+    string space = 3;    // 空间名
+    string number = 4;   // 激活序列号
+    string consumer = 5; // 消费者
 }
 
 // 列举的请求
