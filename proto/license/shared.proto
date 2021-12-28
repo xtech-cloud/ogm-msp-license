@@ -47,7 +47,7 @@ message KeyEntity
     string storage = 6;            // 自定义数据
     string profile = 7;            // 激活码简介
     int32 ban = 10;                // 禁用状态
-    int32 reason = 11;             // 禁用原因
+    string reason = 11;            // 禁用原因
     repeated string consumer = 20; // 消费者
     int64 createdAt = 31;          // 创建时间
     int64 updatedAt = 32;          // 更改时间
