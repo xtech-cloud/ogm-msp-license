@@ -2,7 +2,7 @@ syntax = "proto3";
 
 import "proto/license/shared.proto";
 
-//package license;
+package license;
 option go_package="proto/license;license";
 
 // 空间
