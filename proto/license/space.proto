@@ -25,16 +25,16 @@ message SpaceCreateRequest
 // 搜索的请求
 message SpaceSearchRequest
 {
-    int32 offset = 1; // 偏移值
-    int32 count = 2;  // 数量
+    int64 offset = 1; // 偏移值
+    int64 count = 2;  // 数量
     string name = 3;  // 空间名
 }
 
 // 列举的请求
 message SpaceListRequest
 {
-    int32 offset = 1; // 偏移值
-    int32 count = 2;  // 数量
+    int64 offset = 1; // 偏移值
+    int64 count = 2;  // 数量
 }
 
 // 列举的回复

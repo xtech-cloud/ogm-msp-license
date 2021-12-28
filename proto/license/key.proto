@@ -23,7 +23,7 @@ service Key
 // 生成的请求
 message KeyGenerateRequest
 {
-    string space = 1;   // 空间名
+    string space = 1;   // 空间的uuid
     int32 count = 2;    // 生成数量
     int32 capacity = 3; // 可激活的设备数量
     int32 expiry = 4;   // 有效期，以天为单位，默认为0（永久）
@@ -66,8 +66,8 @@ message KeyUpdateRequest
 // 列举的请求
 message KeyListRequest
 {
-    int32 offset = 1; // 偏移值
-    int32 count = 2;  // 数量
+    int64 offset = 1; // 偏移值
+    int64 count = 2;  // 数量
     string space = 3; // 空间名
 }
 
@@ -82,8 +82,8 @@ message KeyListResponse
 // 查询的请求
 message KeySearchRequest
 {
-    int32 offset = 1;    // 偏移值
-    int32 count = 2;     // 数量
+    int64 offset = 1;    // 偏移值
+    int64 count = 2;     // 数量
     string space = 3;    // 空间名
     string number = 4;   // 序列号
     int32 capacity = 10; // 激活力

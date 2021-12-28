@@ -32,8 +32,8 @@ message CerGetResponse
 // 搜索的请求
 message CerSearchRequest
 {
-    int32 offset = 1;    // 偏移值
-    int32 count = 2;     // 数量
+    int64 offset = 1;    // 偏移值
+    int64 count = 2;     // 数量
     string space = 3;    // 空间名
     string number = 4;   // 激活序列号
     string consumer = 5; // 消费者
@@ -42,8 +42,8 @@ message CerSearchRequest
 // 列举的请求
 message CerListRequest
 {
-    int32 offset = 1; // 偏移值
-    int32 count = 2;  // 数量
+    int64 offset = 1; // 偏移值
+    int64 count = 2;  // 数量
     string space = 3; // 空间名
 }
 
