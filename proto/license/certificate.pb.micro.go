@@ -42,6 +42,8 @@ type CertificateService interface {
 	List(ctx context.Context, in *CerListRequest, opts ...client.CallOption) (*CerListResponse, error)
 	// 搜索
 	Search(ctx context.Context, in *CerSearchRequest, opts ...client.CallOption) (*CerListResponse, error)
+	// 拉取
+	Pull(ctx context.Context, in *CerPullRequest, opts ...client.CallOption) (*CerPullResponse, error)
 }
 
 type certificateService struct {
@@ -86,6 +88,16 @@ func (c *certificateService) Search(ctx context.Context, in *CerSearchRequest, o
 	return out, nil
 }
 
+func (c *certificateService) Pull(ctx context.Context, in *CerPullRequest, opts ...client.CallOption) (*CerPullResponse, error) {
+	req := c.c.NewRequest(c.name, "Certificate.Pull", in)
+	out := new(CerPullResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for Certificate service
 
 type CertificateHandler interface {
@@ -95,6 +107,8 @@ type CertificateHandler interface {
 	List(context.Context, *CerListRequest, *CerListResponse) error
 	// 搜索
 	Search(context.Context, *CerSearchRequest, *CerListResponse) error
+	// 拉取
+	Pull(context.Context, *CerPullRequest, *CerPullResponse) error
 }
 
 func RegisterCertificateHandler(s server.Server, hdlr CertificateHandler, opts ...server.HandlerOption) error {
@@ -102,6 +116,7 @@ func RegisterCertificateHandler(s server.Server, hdlr CertificateHandler, opts .
 		Get(ctx context.Context, in *CerGetRequest, out *CerGetResponse) error
 		List(ctx context.Context, in *CerListRequest, out *CerListResponse) error
 		Search(ctx context.Context, in *CerSearchRequest, out *CerListResponse) error
+		Pull(ctx context.Context, in *CerPullRequest, out *CerPullResponse) error
 	}
 	type Certificate struct {
 		certificate
@@ -124,4 +139,8 @@ func (h *certificateHandler) List(ctx context.Context, in *CerListRequest, out *
 
 func (h *certificateHandler) Search(ctx context.Context, in *CerSearchRequest, out *CerListResponse) error {
 	return h.CertificateHandler.Search(ctx, in, out)
+}
+
+func (h *certificateHandler) Pull(ctx context.Context, in *CerPullRequest, out *CerPullResponse) error {
+	return h.CertificateHandler.Pull(ctx, in, out)
 }

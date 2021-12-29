@@ -14,6 +14,8 @@ service Certificate
     rpc List(CerListRequest) returns (CerListResponse) { }
     // 搜索
     rpc Search(CerSearchRequest) returns (CerListResponse) { }
+    // 拉取
+    rpc Pull(CerPullRequest) returns (CerPullResponse) { }
 }
 
 // 获取的请求
@@ -53,4 +55,18 @@ message CerListResponse
     Status status = 1;                  // 状态
     int64 total = 2;                    //持久化的总数
     repeated CertificateEntity cer = 3; // 证书的列表
+}
+
+// 拉去的请求
+message CerPullRequest
+{
+    string space = 1;    // 空间名
+    string consumer = 2; // 消费者
+}
+
+// 拉取的回复
+message CerPullResponse
+{
+    Status status = 1;         // 状态
+    CertificateEntity cer = 2; // 证书
 }
